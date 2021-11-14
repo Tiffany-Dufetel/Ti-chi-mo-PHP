@@ -9,15 +9,15 @@
 
 /* Imports */
 include_once __DIR__ . "/../core/Database.class.php"; // Utilitaire de connexion à la base de données
-include_once __DIR__ . "/../models/AnnonceModel.php"; // Modèle Contact
-include_once __DIR__ . "/../views/AccueilView.php"; // Vue Home
+include_once __DIR__ . "/../models/ListeEnchereModel.php"; // Modèle Contact
+include_once __DIR__ . "/../views/ListeEnchereView.php"; // Vue Home
 
 /* Alias */
 
 /**
  * Controleur Home
  */
-class AccueilController
+class ListeEnchereController
 {
 
     /**
@@ -26,10 +26,9 @@ class AccueilController
     public function render()
     {
         $dbh = Database::createDBConnection();
-        $annonces = AnnonceModel::fetchByidAnnonce($dbh) ;
-        $annonces_view = new AccueilView($annonces); // Création d'une instance
-        $annonces_view->render(); // Appel de la méthode de rendu (affichage)
-
+        $encheres = ListeEnchereModel::fetchByidAnnonce($dbh,$_GET["id"]) ;
+        $encheres_view = new ListeEnchereView($encheres); // Création d'une instance
+        $encheres_view->render(); // Appel de la méthode de rendu (affichage)
 
     }
 

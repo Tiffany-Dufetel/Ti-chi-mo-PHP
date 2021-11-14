@@ -43,14 +43,14 @@ class CreateAnnonceController
 
 
         if ($data_validated) {
-
+            session_start();
             /* Création de la connexion vers la base de données */
             $dbh = Database::createDBConnection();
 
             /* Création d'un nouvel objet contact à partir du modèle */
             $annonces = new CreateAnnonceModel(
                 null,
-                1,
+                $_SESSION["user_id"],
                 $_POST["title"],
                 $_POST["modele"],
                 $_POST["marque"],

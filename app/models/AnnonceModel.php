@@ -13,7 +13,7 @@
 /**
  * Modèle Contact
  */
-class CreateAnnonceModel
+class AnnonceModel
 {
 
     /* Propriétés */
@@ -29,12 +29,32 @@ class CreateAnnonceModel
     protected $prix_depart;
     protected $status;
     protected $dbh;
+    protected $nom;
+    protected $prenom;
+    protected $mail;
+    protected $mdp;
 
 
     /**
      * Constructeur
      */
-    public function __construct($id, $id_utilisateurs, $title, $modele, $marque, $date_fin, $description, $puissance,$annee, $prix_depart, $status, $dbh)
+    public function __construct(
+        $id, 
+        $id_utilisateurs, 
+        $title, 
+        $modele, 
+        $marque, 
+        $date_fin, 
+        $description, 
+        $puissance,
+        $annee, 
+        $prix_depart, 
+        $status, 
+        $dbh,
+        $nom,
+        $prenom,
+        $mail,
+        $mdp)
     {
         /* Nettoyage des données */
         $this->id = $id;
@@ -49,6 +69,10 @@ class CreateAnnonceModel
         $this->prix_depart = filter_var($prix_depart, FILTER_SANITIZE_STRING);
         $this->status = $status;
         $this->dbh = $dbh;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->mail = $mail;
+        $this->mdp = $mdp;
     }
 
     /**
@@ -72,30 +96,16 @@ class CreateAnnonceModel
     }
 
 
-    /**
-     * Insertion dans la base de données
-     */
-    public function insert()
-    {
-        $query = $this->dbh->prepare("INSERT INTO annonces (id_utilisateurs,title,modele,marque,date_fin,description,puissance,annee,prix_depart,status) VALUES (?,?,?,?,?,?,?,?,?,?)");
-        return $query->execute([$this->id_utilisateurs, $this->title, $this->modele, $this->marque, $this->date_fin, $this->description, $this->puissance, $this->annee, $this->prix_depart, $this->status]);
-    }
 
 
-    /**
-     * Récupération de contact par email
-     */
-    public static function fetchAllAnnonces($dbh)
-    {
-
-        $query = $dbh->prepare("SELECT * FROM annonces");
-        $query->execute() ;
-        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+    public static function fetchByidAnnonce($dbh){
+        $query = $dbh->prepare("SELECT u.*, a.* FROM utilisateurs u INNER JOIN annonces a ON u.id = a.id_utilisateurs");
+        $query->execute();
+        $results = $query ->fetchAll(PDO::FETCH_ASSOC);
 
         $annonces = [];
-
         foreach ($results as $result) {
-            array_push($annonces, new CreateAnnonceModel(
+            array_push($annonces,new AnnonceModel(
                 $result['id'],
                 $result['id_utilisateurs'], 
                 $result['title'], 
@@ -107,10 +117,49 @@ class CreateAnnonceModel
                 $result['annee'],
                 $result['prix_depart'],
                 $result['status'],
-                $dbh));
+                $dbh,
+                $result['nom'],
+                $result['prenom'],
+                $result['mail'],
+                $result['mdp']));
         }
 
         return $annonces;
+    }
+
+    static public function getAnnonceId($dbh, $id)
+    {
+        $dbh = database::createDBConnection();
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $query = $dbh->prepare(
+            "SELECT u.*, a.*, e.* FROM utilisateurs u 
+            INNER JOIN annonces a ON u.id = a.id_utilisateurs
+            INNER JOIN enchere e ON a.id = e.id_annonces
+            WHERE a.id=".$_GET['id']);
+        $query->execute();
+        $result = $query ->fetch();
+
+        if(!$result) {
+            return false;
+        }
+
+        return new AnnonceModel(
+            $result['id'],
+            $result['id_utilisateurs'], 
+            $result['title'], 
+            $result['modele'], 
+            $result['marque'],
+            $result['date_fin'], 
+            $result['description'], 
+            $result['puissance'],
+            $result['annee'],
+            $result['prix_depart'],
+            $result['status'],
+            $dbh,
+            $result['nom'],
+            $result['prenom'],
+            $result['mail'],
+            $result['mdp']);
     }
 
 }

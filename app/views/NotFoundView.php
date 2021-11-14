@@ -24,15 +24,14 @@ class NotFoundView extends AbstractView
 
         <head>
             <meta charset="utf-8">
-            <title>Boilerplate MVC PHP</title>
+            <title>SITE D'ENCHERE AUTO</title>
 
             <link rel="stylesheet" type="text/css" href="assets/styles/style.css" />
         </head>
 
         <body>
             <div id="mainContainer">
-                <h1>Boilerplate MVC PHP</h1>
-                <p>Cette page n'existe pas.</p>
+                <h1>Cette page n'existe pas.</h1>
             </div>
         </body>
 

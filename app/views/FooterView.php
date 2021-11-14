@@ -19,7 +19,7 @@ class FooterView extends AbstractView
     public function render()
     { ?>
     <footer>
-        Copyright LeBocalAcademy 2021
+        <p class="copyright">&copy; Mon Site D'Enchère Auto 2021</p>
     </footer>
 <?php
     }

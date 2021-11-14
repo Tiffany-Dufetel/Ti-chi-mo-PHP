@@ -5,19 +5,12 @@ include_once __DIR__ . "/../core/Database.class.php"; // Utilitaire de connexion
 include_once __DIR__ . "/../models/ContactModel.php"; // Modèle Contact
 include_once __DIR__ . "/../views/MentionsLegalesView.php"; // Vue Home
 include_once __DIR__ . "/../views/FormInscriptionView.php"; // Vue Home
-include_once __DIR__ . "/../views/AnnonceView.php"; // Vue Home
 
 
 
 class HomeController
 {
 
-   
-   public function annonce_view()
-   {
-     $annonce_view = new AnnonceView(); // Création d'une instance
-     $annonce_view->render(); // Appel de la méthode de rendu (affichage)
-  }
 
     public function mentions_legales()
     {
@@ -25,7 +18,7 @@ class HomeController
         $mentions_legales_view->render(); // Appel de la méthode de rendu (affichage)
     }
 
-    public function render()
+    public function inscription_view()
     {
         $form_inscription_view = new FormInscriptionView(null); // Création d'une instance
         $form_inscription_view->render(); // Appel de la méthode de rendu (affichage)

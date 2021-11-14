@@ -38,46 +38,48 @@ class FormInscriptionView extends AbstractView
         </head>
 
         <body>
+        <?php 
+                $navbar = new NavbarView();
+                $navbar->render();
+            ?>
             <div id="mainContainer">
-                <h1>CREATION DE COMPTE</h1>
+
+                <div class="bloc-formulaire-inscription">
+
+                    <div class="inscription">
+
+                    <h1>CREATION DE COMPTE</h1>
+
+                    <?php if (!isset($this->result)) { ?>
+                        <p>
+                            Pour créer un compte, veuillez remplir le formulaire ci-dessous et valider.
+                        </p>
+                    <?php } else if ($this->result === true) { ?>
+                        <p>Votre compte a bien été enregistrée.</p>
+                    <?php } else { ?>
+                        <p>Une erreur s'est produite, veuillez réessayer.</p>
+                    <?php } ?>
+                    </div>
+                    <div class="inscription-input">
+                        <form  action="" method="POST">
+                            <label for="nom">Nom</label>
+                            <input type="text" id="nom" name="nom" required />
+
+                            <label for="prenom">Prénom</label>
+                            <input type="text" id="prenom" name="prenom" required />
+
+                            <label for="mail">Email</label>
+                            <input type="mail" id="mail" name="mail" required />
+
+                            <label for="mdp">Mot de passe</label>
+                            <input type="password" id="mdp" name="mdp" required />
 
 
-                <p>
-                    coucou
-                </p>
-
-                <?php if (!isset($this->result)) { ?>
-                    <p>
-                        Pour créer un compte, veuillez remplir le formulaire ci-dessous et valider.
-                    </p>
-                <?php } else if ($this->result === true) { ?>
-                    <p>Votre compte a bien été enregistrée.</p>
-                <?php } else { ?>
-                    <p>Une erreur s'est produite, veuillez réessayer.</p>
-                <?php } ?>
-
-                 <div class="register">
-                <form  action="" method="POST">
-                    <label for="nom">Nom:</label>
-                    <input type="text" id="nom" name="nom" required />
-
-                    <label for="prenom">Prenom:</label>
-                    <input type="text" id="prenom" name="prenom" required />
-
-                    <label for="mail">Email:</label>
-                    <input type="mail" id="mail" name="mail" required />
-
-                    <label for="mdp">Mot de passe:</label>
-                    <input type="password" id="mdp" name="mdp" required />
-
-
-                    <button>Valider</button>
-                </form>
+                            <button>Valider</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-
-
-
         </body>
 <?php
     $footer_view = new FooterView() ;

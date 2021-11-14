@@ -11,6 +11,12 @@ include_once __DIR__ . "/controllers/HomeController.php"; // Controleur Home
 include_once __DIR__ . "/controllers/NotFoundController.php"; // Controlleur NotFound
 include_once __DIR__ . "/controllers/CreateAnnonceController.php";
 include_once __DIR__ . "/controllers/AccueilController.php";
+include_once __DIR__ . "/controllers/AnnonceController.php";
+include_once __DIR__ . "/controllers/LoginController.php";
+include_once __DIR__ . "/controllers/EnchereController.php";
+include_once __DIR__ . "/controllers/DeconnexionController.php";
+include_once __DIR__ . "/controllers/ListeEnchereController.php";
+
 
 
 
@@ -41,22 +47,38 @@ $router = new Router($uri, $method);
 $homeController = new HomeController();
 $createannonceController = new CreateAnnonceController();
 $accueilController = new AccueilController();
+$annonceController = new AnnonceController();
+$loginController = new LoginController();
+$enchereController = new EnchereController();
+$DeconnexionController = new DeconnexionController();
+$listeEnchereController = new ListeEnchereController();
 
 
-$router->get("/form",  [$homeController, 'render']); // GET /
+$router->get("/form",  [$homeController, 'inscription_view']); // GET /
 $router->post("/form", [$homeController, 'process_contact_form']); // POST /
 
 /*********************/
 $router->get("/mentions-legales",  [$homeController, 'mentions_legales']); // GET /
 $router->get("/",  [$accueilController, 'render']);
-$router->get("/annonce",  [$homeController, 'annonce_view']); // GET /
+
+$router->get("/test",  [$listeEnchereController, 'render']);
 
 
+$router->get("/",  [$loginController, 'render']); // GET /
+$router->post("/",  [$loginController, 'connexion']); 
+
+$router->get("/deconnexion",  [$DeconnexionController, 'render']); // GET /
+$router->post("/deconnexion",  [$DeconnexionController, 'deconnexion']); 
+
+
+$router->get("/annonce",  [$annonceController, 'render']); // GET /
+// $router->post("/annonce",  [$annonceController, 'process_enchere']); 
 
 $router->get("/create", [$createannonceController, 'render']);
 $router->post("/create", [$createannonceController, 'process_create_form']);
 
-// Ajoutez vos routes ici
+$router->get("/annonce", [$enchereController, 'render']);
+$router->post("/annonce", [$enchereController, 'process_enchere']);
 
 
 /*** Route par défaut ***/
