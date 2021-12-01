@@ -1,3 +1,5 @@
+    DATE DE CREATION : 10 novembre 2021
+
 • Développement en équipe d'un site d'enchère automobile.
 
 • HTML/CSS, PHP vanilla sur une base de MVC fournis, base de données HeidiSQL
